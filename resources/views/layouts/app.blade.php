@@ -31,17 +31,12 @@
     <ul>
       <li>@show</li>
     </ul>
-    <!-- 編集・更新が成功した時のフラッシュメッセージ -->
-    @if (session('success'))
-      <div class="success"　style="color: #9CB6D8;">
-          {{ session('success') }}
-      </div>
-    @endif
     <hr size="1">
     <div class="container">
         @yield('content')
 
         @yield('script')
     </div>
+    <!-- ('status[]', $key,old('status')) -->
 </body>
 </html>

@@ -53,11 +53,7 @@
       <tr>
         <th>商品画像 </th>
         <td>
-          @if($products->img_path)
-            <img src="{{ asset(Storage::url($path)) }}" alt="">
-          @else
-            <img src="{{ asset( Storage::url($products->img_path)) }}"><br>
-          @endif
+          <img src="{{ asset( Storage::url($products->img_path)) }}"><br>
         </td>
         <td><input type="file" name="img_path"></td>
       </tr>

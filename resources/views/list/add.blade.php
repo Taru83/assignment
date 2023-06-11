@@ -16,6 +16,9 @@
       @endforeach
     </div>
   @endif
+
+
+
   <form action="{{ route('add') }}" method="post" enctype="multipart/form-data">
   <table class="table table-striped">
     @csrf
