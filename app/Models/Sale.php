@@ -13,10 +13,15 @@ class Sale extends Model
     }
 
     protected $fillable = [
-      'product_id',
+      'id', 'product_id',
     ];
 
     public function products(){
       return $this->belongsTo('App\Models\Product');
     }
+
+    // テーブルのデータにアクセスする
+    protected $table = 'sales';
+    protected $dates =  ['created_at', 'updated_at'];
+
 }

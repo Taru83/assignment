@@ -41,6 +41,14 @@ class ProductController extends Controller
       return view('list.index', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword, 'category' => $category]);
     }
 
+    // public function radioMethod(Request $request){
+    //   return response()->json([
+    //     'message' => '非同期処理が成功しました',
+    //     'data' => $radioData
+    //   ]);
+    // }
+
+
     // 詳細画面
     public function show(Request $request) {
 
@@ -63,16 +71,22 @@ class ProductController extends Controller
       // 例外処理
       DB::beginTransaction();
       try{
-        $product_model = new Product();
+        // $id = $request()->get('id');
+        // $product_model = new Product();
         $products = $product_model->getDestroy($id);
+        // if(!$products){
+        //   return response()->json(['message' => '削除できませんでした']);
+        // }
+
         $products->delete();
         DB::commit();
       }catch(\Exception $e){
         DB::rollback();
-        return back();
+        // return back();
       }
       // ビュー(list)にリダイレクト
-      return redirect()->route('list');
+      // return redirect()->route('list');
+      return response('list.destroy');
     }
 
     // 登録画面

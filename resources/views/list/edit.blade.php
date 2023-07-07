@@ -33,7 +33,7 @@
           <!-- <select name="category" value="{{ optional($products)->company_name }}" style="width: 70%"> -->
           <option value="">未選択</option>
           @foreach($companies as $id => $company_name)
-            <option value="{{ $id }}" {{ old('products', $products->company_id ?? '') == $products->company_id ? 'selected' : '' }}>
+            <option value="{{ $id }}" {{ old(products, $products->company_id ?? '') == $products->company_id ? 'selected' : '' }}>
               {{ $company_name }}
             </option>
           @endforeach
