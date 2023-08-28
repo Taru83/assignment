@@ -20,11 +20,15 @@
       .content {margin: 10px; }
       th { background-color: #999; color: #fff; padding: 5px 10px; }
       td { border: solid 1px #aaa; color: #999; padding: 5px 10px; }
-      .btn-1 { font-size: 21px; background-color: #9CB6D8; padding: 5px 20px; }
+      .btn-1 { font-size: 21px; background-color: #9CB6D8; padding: 5px 30px; }
       .btn-2 { background-color: #9CB6D8;}
       a {text-decoration: none; color: #3B4B59;}
       img { width: 100px; height: 100px; object-fit: cover; }
       .success { padding-left: 30px; }
+      .jougen { font-size: 20px; margin-bottom: 10px; }
+      .kagen { font-size: 20px; }
+      .maxmin { display: flex; }
+      .price-search { padding-right: 30px; }
     </style>
 </head>
 <body>

@@ -2,22 +2,52 @@
 
 namespace App\Models;
 
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company;
+use App\Models\Sale;
+use Kyslik\ColumnSortable\Sortable;
 
 class Product extends Model
 {
-    public function users(){
-        return $this->belongsTo('App\Models\User');//リレーション
-    }
+
+    // use HasFactory;
+    use Sortable;
+
+    protected $table = 'products';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
       'product_name',
       'company_id',
       'price',
       'stock',
-      'comment'
+      'comment',
+      'img_path',
+      'created_at',
+      'updated_at'
     ];
+    public $sortable = [
+      'id',
+      'product_name',
+      'price',
+      'stock',
+      'company_id'
+    ];
+
+    // テーブル結合
+    public function users(){
+        return $this->belongsTo('App\Models\User');
+    }
+    public function companies(){
+      return $this->belongsTo('App\Models\Company');
+    }
+    public function sales(){
+      return $this->hasMany('App\Models\Sale');
+    }
+
+
     // データベース持ってくる
     // 一覧
     public function getList() {
@@ -30,24 +60,25 @@ class Product extends Model
       return $products;
     }
 
-    public function getListQuery() {
-      $query = Product::query();
-      if(!empty($keyword)){
-        $query->where('product_name', 'LIKE', '%'. $keyword. '%');
-      }
+    
+    // public function getListQuery() {
+    //   $query = Product::query();
+    //   if(!empty($keyword)){
+    //     $query->where('product_name', 'LIKE', '%'. $keyword. '%');
+    //   }
 
-      return $query;
-    }
+    //   return $query;
+    // }
 
-    public function getListQueryCategory(){
-      $query = Product::query()
-      ->select('products.*', 'companies.company_name')
-      ->leftjoin('companies', 'companies.id', 'products.company_id')
-      ->orderBy('products.id')
-      ->paginate(20);
+    // public function getListQueryCategory(){
+    //   $query = Product::query()
+    //   ->select('products.*', 'companies.company_name')
+    //   ->leftjoin('companies', 'companies.id', 'products.company_id')
+    //   ->orderBy('products.id')
+    //   ->paginate(20);
 
-      return $query;
-    }
+    //   return $query;
+    // }
 
     // 詳細
     public function getShow($id) {
@@ -141,12 +172,9 @@ class Product extends Model
     //
     //   return $products;
     // }
-    // テーブル結合
-    public function companies(){
-      return $this->belongsTo('App\Models\Company');
-    }
-    public function sales(){
-      return $this->hasMany('App\Models\Sale');
-    }
+
+    // public function sales(){
+    //   return $this->hasMany('App\Models\Sale');
+    // }
 
 }

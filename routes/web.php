@@ -32,13 +32,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logout', 'HomeController@getLogout')->name('logout');
 // 一覧画面
 Route::get('/list', 'ProductController@index')->name('list');
+
+
 // ラジオボタン
 // Route::post('list/{id}', 'ProductController@radioMethod')->name('radioMethod');
 // 詳細画面
 Route::get('list/show/{id}', 'ProductController@show')->name('show');
 // 削除
 // Route::get('/', 'ProductController@index')->name('crud.index');
-Route::post('list/destroy/{id}', 'ProductController@destroy')->name('destroy');
+Route::match(['delete', 'post'], 'list/destroy/{id}', 'ProductController@destroy')->name('destroy');
+// Route::post('list/destroy/{id}', 'ProductController@destroy')->name('destroy');
 // 新規作成画面
 Route::get('list/add', 'ProductController@add')->name('add');
 // 保存

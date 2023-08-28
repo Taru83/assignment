@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\API\SalesController;
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('sale','API\SalesController@index');
+Route::get('/sale','SalesController@buy');
+// Route::post('/sale', 'API\SalesController@pur');

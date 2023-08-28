@@ -29,10 +29,10 @@
       <th>メーカー: </th>
       <td>
         <select name="category" value="{{ $category }}" style="width: 70%">
-        <option value="">未選択</option>
-        @foreach($companies as $id => $company_name)
-          <option value="{{ $id }}">
-            {{ $company_name }}
+        <option value="" hidden>メーカーを選択</option>
+        @foreach($companies as $company)
+          <option value="{{ $company->id }}">
+            {{ $company->company_name }}
           </option>
         @endforeach
         </select>

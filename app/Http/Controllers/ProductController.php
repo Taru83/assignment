@@ -19,35 +19,65 @@ class ProductController extends Controller
       $product_model = new Product();
       $products = $product_model->getList();
 
+      // $request->input()で検索時に入力した項目を取得する
       $keyword = $request->input('keyword');
-      $query = $product_model->getListQuery();
+      $category = $request->input('category');
+      $max_price = $request->input('max_price');
+      $min_price = $request->input('min_price');
+      $max_stock = $request->input('max_stock');
+      $min_stock = $request->input('min_stock');
+
+      // $query = $product_model->getListQuery();
+      $query = Product::query();
+      $query
+      ->select('products.*', 'companies.company_name')
+      ->leftjoin('companies', 'companies.id', 'products.company_id');
+      if(!empty($keyword)){
+        $query->where('product_name', 'LIKE', '%'. $keyword. '%');
+      }
+      // プルダウンメニューで指定なし以外を選択した場合$query->whereで選択したカテゴリーと一致するカラムを取得する
+      if(!empty($category)){
+        $query->where('company_id', '=', $category);
+      }
+
+      if(!empty($max_price)){
+        $query->where('price', '>=', $max_price);
+      }
+      if(!empty($min_price)){
+        $query->where('price', '<=', $min_price);
+      }
+      if(!empty($max_stock)){
+        $query->where('stock', '>=', $max_stock);
+      }
+      if(!empty($min_stock)){
+        $query->where('stock', '<=', $min_stock);
+      }
 
       // バリデーション
       $request->validate([
         'keyword' => 'nullable | alpha_num',
       ]);
 
-      $products = $product_model->getListQueryCategory();
-      // $products = $query
-      // ->select('products.*', 'companies.company_name')
-      // ->leftjoin('companies', 'companies.id', 'products.company_id')
-      // ->orderBy('products.id')
-      // ->paginate(20);
+      // $products = $product_model->getListQueryCategory();
+      
 
-      $category = $request->input('category');
-      $companies = new Company();
-      $companies = $companies->getLists();
+      $company_model = new Company();
+      $companies = $company_model->getLists();
 
-      return view('list.index', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword, 'category' => $category]);
+      
+
+      $query
+      ->sortable()
+      ->orderBy('products.id', 'desc')
+      ->paginate(20);
+      $products = $query->get();
+
+
+
+      return view('list.index', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword, 'category' => $category, ]);
+      // return response()->json([('list.index', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword, 'category' => $category, 'listsorts' => $listsorts, 'order' => $orderpram, ])->render()
+      // ]);
     }
-
-    // public function radioMethod(Request $request){
-    //   return response()->json([
-    //     'message' => '非同期処理が成功しました',
-    //     'data' => $radioData
-    //   ]);
-    // }
-
 
     // 詳細画面
     public function show(Request $request) {
@@ -72,8 +102,9 @@ class ProductController extends Controller
       DB::beginTransaction();
       try{
         // $id = $request()->get('id');
-        // $product_model = new Product();
+        $product_model = new Product();
         $products = $product_model->getDestroy($id);
+
         // if(!$products){
         //   return response()->json(['message' => '削除できませんでした']);
         // }
@@ -86,7 +117,7 @@ class ProductController extends Controller
       }
       // ビュー(list)にリダイレクト
       // return redirect()->route('list');
-      return response('list.destroy');
+      return response('list');
     }
 
     // 登録画面
