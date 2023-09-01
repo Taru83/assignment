@@ -18,5 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/sale','SalesController@buy');
-// Route::post('/sale', 'API\SalesController@pur');
+Route::post('/sale','API\SalesController@buy');
+Route::post('/sale', 'API\SalesController@pur');
+Route::post('/sale',[App\Http\Controllers\API\SalesController::class, 'buy']);

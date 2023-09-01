@@ -19,25 +19,23 @@ class Sale extends Model
       return $this->belongsTo('App\Models\Product');
     }
 
+    public function getDec($id){
+      $sales = Product::select('stock')->where('products.id', '=', $id)->get();
+
+      return $sales;
+    }
+
     public function dec($id){
       // 在庫を減らす処理
-      $sales = DB::table('products')
-      ->where('products.id', '=', $id)
-      ->decrement('stock', 1);
+      // $sales = DB::table('products')
+      // $sales = Product::select('stock')
+      // ->where('products.id', '=', $id)
+      // ->decrement('products.stock', 1);
       // 在庫が０ならjsonでエラーメッセージを出す
-      if($sales === 0){
-          return response()->json(['message' => '在庫がありません'], 404);
-      }
-
-      $sales = DB::table('sales')
-      ->select('products.*', 'sales.*')
-      ->join('products', 'sales.product_id', '=', 'products.id')
-      ->where('products.id', '=', $id)
-      ->decrement('stock', 1);
-      // 在庫が０ならjsonでエラーメッセージを出す
-      if($sales === 0){
-          return response()->json(['message' => '在庫がありません'], 404);
-      }
+      // if($sales === 0){
+      //     return response()->json(['message' => '在庫がありません'], 404);
+      // }
+      $sales = Product::decrement('products.stock', 1);
 
       return $sales;
     }

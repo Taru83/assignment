@@ -76,7 +76,7 @@ class ProductController extends Controller
 
       return view('list.index', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword, 'category' => $category, ]);
       // return response()->json([('list.index', ['products' => $products, 'companies' => $companies, 'keyword' => $keyword, 'category' => $category, 'listsorts' => $listsorts, 'order' => $orderpram, ])->render()
-      // ]);
+      // ]);s
     }
 
     // 詳細画面
