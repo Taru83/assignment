@@ -41,16 +41,16 @@ class ProductController extends Controller
       }
 
       if(!empty($max_price)){
-        $query->where('price', '>=', $max_price);
+        $query->where('price', '<=', $max_price);
       }
       if(!empty($min_price)){
-        $query->where('price', '<=', $min_price);
+        $query->where('price', '>=', $min_price);
       }
       if(!empty($max_stock)){
-        $query->where('stock', '>=', $max_stock);
+        $query->where('stock', '<=', $max_stock);
       }
       if(!empty($min_stock)){
-        $query->where('stock', '<=', $min_stock);
+        $query->where('stock', '>=', $min_stock);
       }
 
       // バリデーション
